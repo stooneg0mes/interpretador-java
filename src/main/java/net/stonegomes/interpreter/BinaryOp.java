@@ -18,16 +18,21 @@ public enum BinaryOp {
     public boolean validateTwoOperands(Object lhs, Object rhs) {
         return switch (this) {
             case Add, Sub, Mul, Div -> standardTwoIntegers(lhs, rhs);
+            case Eq -> standardTwoIntegers(lhs, rhs) || standardTwoStrings(lhs, rhs) || standardTwoBooleans(lhs, rhs);
             default -> true;
         };
     }
 
     private boolean standardTwoIntegers(Object lhs, Object rhs) {
-        if (!(lhs instanceof Integer) && !(rhs instanceof Integer)) {
-            throw new RuntimeException("Expression must use two integer arguments");
-        }
+        return lhs instanceof Integer || rhs instanceof Integer;
+    }
 
-        return true;
+    private boolean standardTwoStrings(Object lhs, Object rhs) {
+        return lhs instanceof String && rhs instanceof String;
+    }
+
+    private boolean standardTwoBooleans(Object lhs, Object rhs) {
+        return lhs instanceof Boolean && rhs instanceof Boolean;
     }
 
 }
