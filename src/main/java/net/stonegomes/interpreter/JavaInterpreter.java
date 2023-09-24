@@ -1,8 +1,10 @@
 package net.stonegomes.interpreter;
 
+import net.stonegomes.interpreter.term.BinaryOp;
+
 import java.util.HashMap;
 
-import static net.stonegomes.interpreter.Term.*;
+import static net.stonegomes.interpreter.term.Term.*;
 
 public class JavaInterpreter {
 
@@ -24,7 +26,7 @@ public class JavaInterpreter {
             new Binary(Int.of(200), BinaryOp.Add, Int.of(500))
         );
 
-        // Result: 700
+        // Result: print 700
         binaryTerm.eval(new HashMap<>());
     }
 
@@ -41,7 +43,7 @@ public class JavaInterpreter {
                 new Binary(Int.of(500), BinaryOp.Div, Int.of(2)))
         );
 
-        // Result: 450
+        // Result: print 450
         binaryTerm.eval(new HashMap<>());
     }
 
@@ -54,7 +56,7 @@ public class JavaInterpreter {
             new Print(Str.of("it is not true")) // no
         );
 
-        // Result: it is true
+        // Result: print "it is true"
         ifTerm.eval(new HashMap<>());
     }
 
@@ -71,7 +73,7 @@ public class JavaInterpreter {
             new Print(new Binary(Int.of(20), BinaryOp.Add, Int.of(20)))
         );
 
-        // Result: 40
+        // Result: print 40
         ifTerm.eval(new HashMap<>());
     }
 

@@ -1,24 +1,11 @@
-package net.stonegomes.interpreter;
+package net.stonegomes.interpreter.term;
 
 import java.util.HashMap;
 import java.util.Map;
 
-// 1 - Int
-// left hand side
-// right hand side
-//
-// 1 + 1 - Add
-// let x = 10; x + 20
-// Add(Expr, Add(Expr, Expr))
-//
-// let f = fn () => "a";
-// let _ = print (f());
-// print (let x = 10; x)
-//
-// Let( "x",
-//      Int(10),
-//      Add(Var("x"), Int(20)) )
-//
+// lhs - left hand side of the operation
+// rhs - right hand side of the operation
+
 public sealed interface Term {
 
     record Int(int value) implements Term {
@@ -59,10 +46,7 @@ public sealed interface Term {
 
     }
 
-    // bi - binário, ou seja recebe 2
-    // lhs - left hand side, o lado esquerdo da operação
-    // rhs - right hand side, o lado direito da operação
-record Binary(Term lhs, BinaryOp op, Term rhs) implements Term {
+    record Binary(Term lhs, BinaryOp op, Term rhs) implements Term {
 
         @Override
         public Object eval(Map<String, Object> environment) {
@@ -87,12 +71,6 @@ record Binary(Term lhs, BinaryOp op, Term rhs) implements Term {
                     return (int) lhsValue / (int) rhsValue;
                 }
                 case Eq -> {
-//                    if (lhsValue instanceof String lhsString && rhsValue instanceof String rhsString) {
-//                        return lhsString.equals(rhsString);
-//                    } else if (lhsValue instanceof Integer lhsInt && rhsValue instanceof Integer rhsInt) {
-//                        return lhsInt.equals(rhsInt);
-//                    }
-
                     return lhs.equals(rhs);
                 }
                 default -> throw new RuntimeException("Unsupported type");
@@ -106,7 +84,8 @@ record Binary(Term lhs, BinaryOp op, Term rhs) implements Term {
 
         @Override
         public Object eval(Map<String, Object> environment) {
-            HashMap<String, Object> clonedEnvironment = new HashMap<>(environment);;
+            HashMap<String, Object> clonedEnvironment = new HashMap<>(environment);
+            ;
             clonedEnvironment.put(name, value.eval(environment));
 
             return in.eval(clonedEnvironment);
@@ -149,15 +128,3 @@ record Binary(Term lhs, BinaryOp op, Term rhs) implements Term {
     }
 
 }
-
-// ADT - Algebraic Data Types
-//
-//sealed interface LinkedList<T> {
-//    record Cons<T>(T head, LinkedList<T> rest) implements LinkedList<T> {}
-//    record Nil<T>() implements LinkedList<T> {}
-//
-//    default void cu() {
-//        // Cons(10, Cons(20, Nil))
-//        new Cons<Integer>(10, new Cons<>(20, new Nil<>()));
-//    }
-//}

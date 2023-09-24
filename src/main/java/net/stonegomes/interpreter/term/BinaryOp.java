@@ -1,4 +1,4 @@
-package net.stonegomes.interpreter;
+package net.stonegomes.interpreter.term;
 
 public enum BinaryOp {
     Add, // +
